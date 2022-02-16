@@ -12,7 +12,7 @@ const useTodo = () => {
     const getTodos = async () => {
         try {
             const res = await getAllTodos()
-            const data = res.docs.map(doc => ({ ...doc.data(), id: doc.id })).reverse()
+            const data = res.docs.map(doc => ({ ...doc.data(), id: doc.id })).sort((a, b) => b.add_date - a.add_date);
             dispatch({ type: ACTIONS.GET_TODO, payload: [...data] });
         } catch (error) {
             console.log('useTodo/getTodos', error);
@@ -22,8 +22,9 @@ const useTodo = () => {
     const setTodos = useMemo(() => ({
         addTodo: async (text) => {
             try {
-                const res = await addTodo({ text, completed: false })
-                dispatch({ type: ACTIONS.ADD_TODO, payload: { id: res.id, text, completed: false } });
+                const todo = { text, completed: false, add_date: new Date() }
+                const res = await addTodo(todo)
+                dispatch({ type: ACTIONS.ADD_TODO, payload: { ...todo, id: res.id } });
             } catch (error) {
                 console.log('useTodo/addTodo', error);
             }
