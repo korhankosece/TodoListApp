@@ -1,5 +1,5 @@
-import Todo from "./components/Todo";
+import Home from "./views/Home";
 
-const App = () => <Todo />;
+const App = () => <Home />;
 
 export default App;

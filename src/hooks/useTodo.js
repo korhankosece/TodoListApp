@@ -44,7 +44,7 @@ const useTodo = () => {
                 console.log('useTodo/toggleTodo', error);
             }
         },
-    }), [todos]);
+    }), []);
 
     return [todos, setTodos];
 }
