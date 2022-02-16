@@ -2,23 +2,23 @@ import { useState } from "react";
 import useTodo from "../hooks/useTodo";
 
 const Todo = () => {
-    const [name, setName] = useState("");
+    const [text, setText] = useState("");
     const [todos, setTodos] = useTodo();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setTodos.addTodo(name);
-        setName("");
+        setTodos.addTodo(text);
+        setText("");
     };
-    const handleComplete = (id) => setTodos.toggleTodo(id);
+    const handleComplete = (id, isCompleted) => setTodos.toggleTodo(id, isCompleted);
     const handleRemove = (id) => setTodos.removeTodo(id);
 
     return (
         <form onSubmit={handleSubmit}>
             <input
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
             ></input>
             {todos.length > 0 && todos.map((todo, key) => (
                 <div
@@ -34,9 +34,9 @@ const Todo = () => {
                     }}
                 >
                     <p style={{ textDecorationLine: todo.completed ? "line-through" : "none" }}>
-                        {todo.name}
+                        {todo.text}
                     </p>
-                    <button form="" onClick={() => handleComplete(todo.id)}>
+                    <button form="" onClick={() => handleComplete(todo.id, todo.completed)}>
                         Complete
                     </button>
                     <button form="" onClick={() => handleRemove(todo.id)}>

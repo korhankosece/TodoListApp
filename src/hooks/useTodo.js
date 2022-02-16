@@ -1,5 +1,6 @@
 import { useReducer, useMemo, useEffect } from "react";
 import { ACTIONS } from "../assets/constants";
+import { addTodo, completeTodo, getAllTodos, removeTodo } from "../library/network/requests/todo";
 
 const useTodo = () => {
     const [todos, dispatch] = useReducer(reducer, []);
@@ -8,47 +9,52 @@ const useTodo = () => {
         getTodos()
     }, [])
 
-    const getTodos = () => {
-        dispatch({ type: ACTIONS.GET_TODO, payload: [{ id: 1, name: 'Wash the dishes', completed: false }, { id: 2, name: 'Go to gym', completed: false }] });
+    const getTodos = async () => {
+        try {
+            const res = await getAllTodos()
+            const data = res.docs.map(doc => ({ ...doc.data(), id: doc.id })).reverse()
+            dispatch({ type: ACTIONS.GET_TODO, payload: [...data] });
+        } catch (error) {
+            console.log('useTodo/getTodos', error);
+        }
     }
 
     const setTodos = useMemo(() => ({
-        addTodo: async (name) => {
+        addTodo: async (text) => {
             try {
-                dispatch({ type: ACTIONS.ADD_TODO, payload: { name } });
-            } catch (e) {
-                console.log(e);
+                const res = await addTodo({ text, completed: false })
+                dispatch({ type: ACTIONS.ADD_TODO, payload: { id: res.id, text, completed: false } });
+            } catch (error) {
+                console.log('useTodo/addTodo', error);
             }
         },
-        toggleTodo: async (id) => {
+        toggleTodo: async (id, isCompleted) => {
             try {
+                await completeTodo(id, !isCompleted)
                 dispatch({ type: ACTIONS.TOGGLE_TODO, payload: { id } });
-            } catch (e) {
-                console.log(e);
+            } catch (error) {
+                console.log('useTodo/toggleTodo', error);
             }
         },
         removeTodo: async (id) => {
             try {
+                await removeTodo(id)
                 dispatch({ type: ACTIONS.REMOVE_TODO, payload: { id } });
-            } catch (e) {
-                console.log(e);
+            } catch (error) {
+                console.log('useTodo/toggleTodo', error);
             }
         },
-    }), []);
+    }), [todos]);
 
     return [todos, setTodos];
 }
 
 export default useTodo;
 
-const newTodo = (name) => {
-    return { id: Date.now(), name, completed: false };
-};
-
 const reducer = (todos, action) => {
     switch (action.type) {
         case ACTIONS.ADD_TODO:
-            return [...todos, newTodo(action.payload.name)];
+            return [action.payload, ...todos];
         case ACTIONS.TOGGLE_TODO:
             return [...todos.map(todo => todo.id === action.payload.id ? { ...todo, completed: !todo.completed } : todo)];
         case ACTIONS.REMOVE_TODO:
