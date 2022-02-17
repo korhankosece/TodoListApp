@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Box, Table, TableBody, Checkbox, TableCell, TableContainer, TableRow, Paper, CircularProgress } from "@mui/material";
+import { Box, Table, TableBody, Checkbox, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete"
 import AlertDialog from "./common/AlertDialog";
+import Loading from "./common/Loading";
 
 const TodoList = (props) => {
     const { todos, setTodos } = props;
@@ -11,7 +12,7 @@ const TodoList = (props) => {
     const handleComplete = (id, isCompleted) => setTodos.toggleTodo(id, isCompleted);
     const handleRemove = (id) => setTodos.removeTodo(id);
     return (
-        <Box style={{ width: "25rem" }}>
+        <>
             {todos.length > 0 ?
                 (<TableContainer component={Paper}>
                     <Table>
@@ -19,24 +20,24 @@ const TodoList = (props) => {
                             {todos.map((todo, key) => (
                                 <TableRow
                                     key={key}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    className="custom-table-row"
                                 >
                                     <TableCell component="th" scope="row">
                                         <Checkbox onClick={() => handleComplete(todo.id, todo.completed)} checked={todo.completed} />
                                     </TableCell>
-                                    <TableCell > <Box component="p" style={{ textDecorationLine: todo.completed ? "line-through" : "none" }}>
+                                    <TableCell > <Box component="p" className={todo.completed ? 'completed-todo' : ''}>
                                         {todo.text}
                                     </Box></TableCell>
-                                    <TableCell align="right"><DeleteIcon onClick={() => { setOpenRemoveDialog(true); setDeleteId(todo.id) }} color="error" cursor="pointer" /></TableCell>
+                                    <TableCell align="right"><DeleteIcon onClick={() => { setOpenRemoveDialog(true); setDeleteId(todo.id) }} className="custom-delete-icon" /></TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
                 )
-                : <CircularProgress />}
+                : <Loading />}
             <AlertDialog open={openRemoveDialog} setOpen={setOpenRemoveDialog} action={() => handleRemove(deleteId)} />
-        </Box>
+        </>
     )
 }
 

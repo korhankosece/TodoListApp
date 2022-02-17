@@ -30,7 +30,7 @@ const Todo = (props) => {
     };
 
     return (
-        <Box component="form" onSubmit={handleSubmit}>
+        <Box component="form" className="input-container" onSubmit={handleSubmit}>
             <TextField
                 type="text"
                 value={text}
@@ -41,8 +41,9 @@ const Todo = (props) => {
                 error={error.isEmpty || error.isMaxValue || false}
                 helperText={error.isEmpty ? "This field is required." :
                     error.isMaxValue ? "Only 250 characters allowed." : null}
+                size="small"
             />
-            <Button type="submit" variant="contained">Add</Button>
+            <Button type="submit" variant="contained" className="add-button">Add</Button>
         </Box>
     )
 };

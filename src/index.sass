@@ -1,0 +1,83 @@
+body
+    margin: 0
+    font-family: -apple-system BlinkMacSystemFont Roboto Oxygen Ubuntu Cantarell Fira Sans Droid Sans Helvetica Neue sans-serif
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+
+code
+    font-family: source-code-pro Menlo Monaco Consolas Courier New monospace
+
+$primary-btn-color: #1565C0
+$secondary-btn-color: #D32F2F
+
+.container
+    margin: 0 auto
+    max-width: 50em
+    display: flex
+    flex-direction: column
+    justify-content: center
+    width: 100%
+    height: 100vh
+    @media screen and ( max-width: 104.9em )
+        max-width: 50em
+    @media screen and ( max-width: 80em )
+        max-width: 45em
+    @media screen and ( max-width: 65em )
+        max-width: 40em
+    @media screen and ( max-width: 50em )
+        max-width: 35em
+    @media screen and ( max-width: 650px )
+        max-width: 30em
+    @media screen and ( max-width: 600px )
+        max-width: 25em
+    @media screen and ( max-width: 450px )
+        margin: 0 2rem 0 2rem
+        width: auto
+
+p
+    font-family: Roboto
+    margin: 0
+    font-size: 16px
+    @media screen and ( max-width: 50em )
+        font-size: 14px
+
+.title
+    font-family: Roboto
+    font-weight: 500
+    @media screen and ( max-width: 50em )
+        font-size: 25px
+
+.input-container
+    display: flex
+    justify-content: space-between
+    margin: 2rem 3rem
+    @media screen and ( max-width: 50em )
+        margin: 1.5rem 2rem
+    div:nth-of-type(1)
+        width: 90%
+
+.custom-table-row
+    th
+        width: 3rem
+    td:last-child
+        width: 3rem
+        text-align: center
+    &:last-child
+        td, th
+            border: 0
+
+.completed-todo
+    text-decoration-line: line-through
+
+.add-button
+    background-color: $primary-btn-color !important
+
+.custom-delete-icon
+    color: $secondary-btn-color
+    cursor: pointer
+
+.loading-container
+    display: flex
+    align-items: center
+    width: '100%'
+    justify-content: center
