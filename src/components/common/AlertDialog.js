@@ -19,7 +19,8 @@ const AlertDialog = (props) => {
         <Dialog
             open={open}
             onClose={handleClose}
-
+            fullWidth
+            maxWidth={'xs'}
         >
             <DialogTitle>
                 {"Delete"}
