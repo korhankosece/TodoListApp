@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Table, TableBody, Checkbox, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
+import { Box, Table, TableBody, Checkbox, TableCell, TableContainer, TableRow, Paper, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete"
 import AlertDialog from "./common/AlertDialog";
 import Loading from "./common/Loading";
@@ -28,7 +28,11 @@ const TodoList = (props) => {
                                     <TableCell > <Box component="p" className={todo.completed ? 'completed-todo' : ''}>
                                         {todo.text}
                                     </Box></TableCell>
-                                    <TableCell align="right"><DeleteIcon onClick={() => { setOpenRemoveDialog(true); setDeleteId(todo.id) }} className="custom-delete-icon" /></TableCell>
+                                    <TableCell align="right">
+                                        <IconButton onClick={() => { setOpenRemoveDialog(true); setDeleteId(todo.id) }} >
+                                            <DeleteIcon className="custom-delete-icon" />
+                                        </IconButton>
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

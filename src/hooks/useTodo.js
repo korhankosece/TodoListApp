@@ -12,7 +12,7 @@ const useTodo = () => {
     const getTodos = async () => {
         try {
             const res = await getAllTodos()
-            const data = res.docs.map(doc => ({ ...doc.data(), id: doc.id })).sort((a, b) => b.add_date - a.add_date);
+            const data = res.docs.map(doc => ({ ...doc.data(), id: doc.id })).sort((a, b) => b.add_date - a.add_date).sort((a, b) => a.completed - b.completed);
             dispatch({ type: ACTIONS.GET_TODO, payload: [...data] });
         } catch (error) {
             console.log('useTodo/getTodos', error);
@@ -57,7 +57,7 @@ const reducer = (todos, action) => {
         case ACTIONS.ADD_TODO:
             return [action.payload, ...todos];
         case ACTIONS.TOGGLE_TODO:
-            return [...todos.map(todo => todo.id === action.payload.id ? { ...todo, completed: !todo.completed } : todo)];
+            return [...todos.map(todo => todo.id === action.payload.id ? { ...todo, completed: !todo.completed } : todo).sort((a, b) => a.completed - b.completed)];
         case ACTIONS.REMOVE_TODO:
             return [...todos.filter(todo => todo.id !== action.payload.id)];
         case ACTIONS.GET_TODO:

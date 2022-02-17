@@ -32,7 +32,7 @@ const AlertDialog = (props) => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleSubmit} autoFocus>
+                <Button onClick={handleSubmit} >
                     Ok
                 </Button>
             </DialogActions>
